@@ -21,7 +21,7 @@ class Tur(Sprite):
         x1 = self.x
         y1 = self.y
         self.move_forward(rest)
-        w.create_line(x1,y1,self.x,self.y,color=Color.random_rgb())
+        w.create_line(x1,y1,self.x,self.y)
 
     def draw_rect(self,width,height):
         self.draw_forward(width)
