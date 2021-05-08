@@ -141,9 +141,10 @@ def not_show_answer():
     for i in range(4):
         ncolor01 = w.create_sprite(Blank)
         ncolor01.color = Color.WHITE  
-        ncolor01.x += (color01.width + GAP)* i
+        ncolor01.x += (ncolor01.width + GAP)* i
         
 start = make_a_new_row(0)
+
 strat = not_show_answer()
 
 w.run()
