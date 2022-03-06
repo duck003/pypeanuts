@@ -1,3 +1,4 @@
+from pickletools import UP_TO_NEWLINE
 from pycat.base import color
 from pycat.core import Color, KeyCode, Scheduler, Sprite, Window, Label, RotationMode
 import random, time
@@ -55,10 +56,24 @@ class Return0(Sprite):
     def on_left_click(self):
         self.is_visible = False
         player01.health = 100
-        score_label.text = "HERO'S HEALTH : " +str(player01.health)
         enemy01.health = 100
-        score_label01.text = "ENEMY'S HEALTH : " +str(enemy01.health)
         gm01.state = Gm.start0
+
+class Labelp (Label):
+
+    def on_create(self):
+        self.position = 120,600
+        self.font_size = 40
+        self.color = 0,0,0
+        self.text = 'hi'
+
+class Labele (Label):
+
+    def on_create(self):
+        self.position = 1100,600
+        self.font_size = 40
+        self.color = 0,0,0
+        self.text = 'hi'
 
 class Win(Sprite):
 
@@ -111,20 +126,20 @@ class Player (Sprite):
         else:
             self.is_visible =False    
         self.time += dt
-        if w.get_key(KeyCode.UP):
+        if w.is_active_key(KeyCode.UP):
             self.image = ("playc.png")
             self.scale = 0.24
             self.y += self.speed
-        elif w.get_key(KeyCode.DOWN):
+        elif w.is_active_key(KeyCode.DOWN):
             self.image = ("playc00.png")
             self.scale = 0.24
             self.y -= self.speed    
-        elif w.get_key(KeyCode.Z):
+        elif w.is_key_pressed(KeyCode.Z):
             self.image = ("playc0.png")
             if self.time > 0.8:
                 w.create_sprite(Bullet) 
                 self.time = 0    
-        elif w.get_key(KeyCode.X):
+        elif w.is_key_pressed(KeyCode.X):
             self.image = ("playc0.png")
             if self.bomb < 1:
                 w.create_sprite(Bomb) 
@@ -145,17 +160,15 @@ class Bullet(Sprite):
         else:
             self.is_visible =False
         self.x += self.speed
-        if self.touching_any_sprite_with_tag("enemy"):
+        if self.is_touching_any_sprite_with_tag("enemy"):
             self.delete ()
             enemy01.health -= 1
-            score_label01.text = "ENEMY'S HEALTH : " +str(enemy01.health)
-        if self.touching_any_sprite_with_tag("eb"):
+        if self.is_touching_any_sprite_with_tag("eb"):
             self.delete ()
         elif self.x >= 1180:    
             self.delete ()
             enemy01.health -= 1
-            score_label01.text = "ENEMY'S HEALTH : " +str(enemy01.health)
-        elif self.touching_any_sprite_with_tag("eb"):
+        elif self.is_touching_any_sprite_with_tag("eb"):
             self.delete()
 wow = 3
 
@@ -180,21 +193,20 @@ class Bomb(Sprite):
             self.delete()
             player01.bomb -= 1
             wow = 3
-        if w.get_key(KeyCode.RIGHT):
+        if w.is_active_key(KeyCode.RIGHT):
             self.rotation = 0
             self.x += self.speed
-        if w.get_key(KeyCode.LEFT):
+        if w.is_active_key(KeyCode.LEFT):
             self.rotation = 180
             self.x -= self.speed
-        if w.get_key(KeyCode.C):
+        if w.is_key_pressed(KeyCode.C):
             self.image = ("bombe.png")
             for i in range (0,3,1):
                 self.etime += dt
             if self.etime > 1 :    
-                if self.touching_any_sprite_with_tag('enemy'):             
+                if self.is_touching_any_sprite_with_tag('enemy'):             
                     enemy01.health -= 5
                     self.delete()
-                    score_label01.text = "ENEMY'S HEALTH : " +str(enemy01.health)
                     player01.bomb -= 1 
                 else:
                     self.delete()    
@@ -220,7 +232,7 @@ class Enemy(Sprite):
             self.is_visible =False
         self.move_forward(self.speed)
         # time.sleep(1)
-        if self.touching_window_edge():
+        if self.is_touching_window_edge():
             self.rotation += 180
 
 class Ebullet01(Sprite):
@@ -239,24 +251,17 @@ class Ebullet01(Sprite):
             self.is_visible =False
         global wow
         self.x -= self.speed
-        if self.touching_any_sprite_with_tag("player"):
+        if self.is_touching_any_sprite_with_tag("player"):
             self.delete ()
             player01.health -= 1
-            score_label.text = "HERO'S HEALTH : " +str(player01.health)
         elif self.x <= 100:    
             self.delete ()
             player01.health -= 1
-            score_label.text = "HERO'S HEALTH : " +str(player01.health)
-        elif self.touching_any_sprite_with_tag("pb"):
+        elif self.is_touching_any_sprite_with_tag("pb"):
             self.delete()
-        elif self.touching_any_sprite_with_tag("bb"):
+        elif self.is_touching_any_sprite_with_tag("bb"):
             wow -= 1
             self.delete()
-        
-score_label = Label("HERO'S HEALTH : 100",x=100,y=600, )
-w.add_label(score_label)
-score_label01 = Label("ENEMY'S HEALTH : 100",x=900,y=600,)
-w.add_label(score_label01)
 
 def spawn_enemy():
     if gm01.state == Gm.game0:
@@ -272,5 +277,7 @@ lose01 = w.create_sprite(Lose)
 player01:Player = w.create_sprite(Player)
 enemy01:Enemy = w.create_sprite(Enemy)
 return01 = w.create_sprite(Return0)
+labelp = w.create_label(Labelp)
+labele = w.create_label(Labele)
 
 w.run()

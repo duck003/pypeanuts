@@ -96,9 +96,9 @@ class EBullet(Sprite):
 
 
 sclabel = Label("POINT: 0",x=200,y=600)
-w.add_label(sclabel)
+w.create_label(sclabel)
 scllabel = Label("HEALTH: 100",x=20,y=600)
-w.add_label(scllabel)
+w.create_label(scllabel)
 
 li01 = Label("You LOSE!",x=600,y=600)
 li02 = Label("You WIN!",x=600,y=600)
