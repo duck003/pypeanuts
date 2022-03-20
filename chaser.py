@@ -226,9 +226,9 @@ class Gun (Sprite):
         self.dtt += dt
     
     def on_left_click_anywhere(self):
-        # if self.dtt > 10:
-        self.shootmr()
-        self.dtt = 0
+        if self.dtt > 10:
+            self.shootmr()
+            self.dtt = 0
 
     def picked(self):
         self.x = player.x
