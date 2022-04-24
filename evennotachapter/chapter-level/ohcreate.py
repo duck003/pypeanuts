@@ -36,12 +36,11 @@ def create_level(n, m, scale, x0, y0, w:Window, Csprite=Sprite):
     for i in range(rows):
         row =  []
         for j in range(cols): 
-            p = w.create_sprite(Csprite)
-            p.scale = scale
-            p.color = Color.BLACK
-            p.x = x0 + j*(2+p.width)
-            p.y = y0 + i*(2+p.height)
-            r = row.append(p)
+            q = w.create_sprite(Csprite)
+            q.scale = scale
+            q.x = x0 + j*(2+q.width)
+            q.y = y0 + i*(2+q.height)
+            r = row.append(q)
         grid.append(r)
 
 currentr:Texture = None
@@ -49,15 +48,16 @@ currentr:Texture = None
 
 class Clicked(Sprite):
     
-    def on_click(self, mouse_event: MouseEvent):
+    def on_left_click(self):
         global currentr
         currentr = self.texture
-
+        
 class Levelr(Sprite):
     
-    def on_click(self, mouse_event: MouseEvent):
+    def on_left_click(self):
+        widthr = self.width
         self.texture = currentr
-        self.scale_to_width(self.scale)
+        self.scale_to_width(widthr)
         
 
 wo = split_png("tiles_packed.png", 10, 12)
